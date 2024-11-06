@@ -1,90 +1,58 @@
 import arcade
-from attack import Attacks, Meele
+from attack import *
 from constant import *
+from move_room import *
+from movement import *
 
-class MovingRectangle(arcade.Window):
+class RectangleGame(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-
+        
         # Set the background color (light gray)
         arcade.set_background_color(arcade.color.LIGHT_GRAY)
 
-        # Rectangle position
-        self.rect_x = SCREEN_WIDTH / 2
-        self.rect_y = SCREEN_HEIGHT / 2
-
-        # Track which keys are currently pressed
-        self.up_pressed = False
-        self.down_pressed = False
-        self.left_pressed = False
-        self.right_pressed = False
+        # Initialize Movement
+        self.movement = Movement(self)
 
         # Initialize attack
-        self.melee_attack = Meele(self)  # Fixed class name to match attacks.py
+        self.meele_attack = Meele(self)
 
-    def on_draw(self):
-        """Render the screen"""
+        # Initialize room system
+        self.room = Room(self)
+
+        # Inistialize health
+        self.health = 100
+
+    def on_draw(self): #Render the screen
         self.clear()
+        
+        # Draw the room elements (door and room number)
+        self.room.draw()
         
         # Draw the rectangle (blue)
         arcade.draw_rectangle_filled(
-            self.rect_x, self.rect_y,
+            self.movement.rect_x, self.movement.rect_y,
             RECT_WIDTH, RECT_HEIGHT,
             arcade.color.BLUE
         )
 
         # Draw attack if attacking
-        self.melee_attack.draw()
+        self.meele_attack.draw()
 
     def on_key_press(self, key, modifiers):
-        """Called when a key is pressed"""
-        if key == arcade.key.UP:
-            self.up_pressed = True
-        elif key == arcade.key.DOWN:
-            self.down_pressed = True
-        elif key == arcade.key.LEFT:
-            self.left_pressed = True
-        elif key == arcade.key.RIGHT:
-            self.right_pressed = True
-
-        # WASD attack
-        elif key == arcade.key.W:
-            self.melee_attack.stab('up')
-        elif key == arcade.key.S:
-            self.melee_attack.stab('down')
-        elif key == arcade.key.A:
-            self.melee_attack.stab('left')
-        elif key == arcade.key.D:
-            self.melee_attack.stab('right')
+        self.movement.on_key_press(key, modifiers)
 
     def on_key_release(self, key, modifiers):
-        """Called when a key is released"""
-        if key == arcade.key.UP:
-            self.up_pressed = False
-        elif key == arcade.key.DOWN:
-            self.down_pressed = False
-        elif key == arcade.key.LEFT:
-            self.left_pressed = False
-        elif key == arcade.key.RIGHT:
-            self.right_pressed = False
+        self.movement.on_key_release(key, modifiers)
 
     def on_update(self, delta_time):
-        """Movement and game logic"""
-        # Update rectangle position based on pressed keys
-        if self.up_pressed:
-            self.rect_y += MOVEMENT_SPEED
-        if self.down_pressed:
-            self.rect_y -= MOVEMENT_SPEED
-        if self.left_pressed:
-            self.rect_x -= MOVEMENT_SPEED
-        if self.right_pressed:
-            self.rect_x += MOVEMENT_SPEED
-
-        self.melee_attack.update()
+        self.meele_attack.update()
+        self.room.update()
+        self.movement.on_update(delta_time)
 
 def main():
-    window = MovingRectangle()
+    window = RectangleGame()
     arcade.run()
 
 if __name__ == "__main__":
-    main()
+    main() 
