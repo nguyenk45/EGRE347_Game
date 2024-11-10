@@ -18,9 +18,6 @@ class Room:
         self.current_room = 1
     
     def check_door_collision(self):
-        player_x = self.player.movement.rect_x
-        player_y = self.player.movement.rect_y
-
 
         # Check if player has reached the door
         if (self.player.movement.rect_x + RECT_WIDTH/2 > SCREEN_WIDTH - DOOR_WIDTH and

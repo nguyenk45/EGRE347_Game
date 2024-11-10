@@ -3,6 +3,8 @@ from attack import *
 from constant import *
 from move_room import *
 from movement import *
+from items import *
+from pickup import *
 
 class RectangleGame(arcade.Window):
     def __init__(self):
@@ -23,11 +25,20 @@ class RectangleGame(arcade.Window):
         # Inistialize health
         self.health = 100
 
+        # Inistialize Item
+        self.item = item(self)
+
+        # Inistialize Item Collision
+        self.item_collision = item_collision(self)
+
     def on_draw(self): #Render the screen
         self.clear()
         
         # Draw the room elements (door and room number)
         self.room.draw()
+
+        # Draw Item
+        self.item.draw()
         
         # Draw the rectangle (blue)
         arcade.draw_rectangle_filled(
@@ -41,6 +52,8 @@ class RectangleGame(arcade.Window):
 
     def on_key_press(self, key, modifiers):
         self.movement.on_key_press(key, modifiers)
+        
+        self.item_collision.on_key_press(key) 
 
     def on_key_release(self, key, modifiers):
         self.movement.on_key_release(key, modifiers)
@@ -49,6 +62,7 @@ class RectangleGame(arcade.Window):
         self.meele_attack.update()
         self.room.update()
         self.movement.on_update(delta_time)
+        self.item_collision.update(delta_time)
 
 def main():
     window = RectangleGame()

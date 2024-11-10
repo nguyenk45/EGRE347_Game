@@ -31,6 +31,9 @@ class Meele(Attacks):
         self.attack_box = None
 
     def stab(self, direction):
+        if not self.player.item_collision.current_item:
+            return False
+
         if not self.is_attacking and self.attack_cooldown <= 0:
             self.is_attacking = True
             self.attack_cooldown = 30
