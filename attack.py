@@ -1,6 +1,5 @@
 import arcade
 from constant import *
-from movement import *
 
 class Attacks:
     def __init__(self, player):

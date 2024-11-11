@@ -1,13 +1,12 @@
 import arcade
 from constant import *
-from attack import *
 
 class Movement:
     def __init__(self, player):
         self.player = player
         # Square position
         self.rect_x = SCREEN_WIDTH / 2
-        self.rect_y = SCREEN_HEIGHT / 2
+        self.rect_y = SCREEN_HEIGHT / 2 
 
         # Track which keys are currently pressed
         self.up_pressed = False

@@ -1,6 +1,5 @@
 import arcade
 from constant import *
-from movement import *
 from items import *
 
 class item_collision:

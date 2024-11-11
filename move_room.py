@@ -1,7 +1,6 @@
 import arcade
 import random
 from constant import *
-from movement import *
 
 #set the size of the game
 SCREEN_WIDTH = 800

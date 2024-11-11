@@ -3,7 +3,6 @@ from attack import *
 from constant import *
 from move_room import *
 from movement import *
-from items import *
 from pickup import *
 
 class RectangleGame(arcade.Window):
