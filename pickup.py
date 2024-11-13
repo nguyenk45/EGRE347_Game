@@ -1,23 +1,22 @@
 import arcade
 from constant import *
-from items import *
 
 class item_collision:
-    def __init__(self, object):
-        self.object = object
+    def __init__(self, player):
+        self.player = player
         self.current_item = None
         self.can_pickup = False
 
-
     def pickup(self):
-        player_x = self.object.movement.rect_x
-        player_y = self.object.movement.rect_y
+        if not hasattr(self.player, 'game_window') or not self.player.game_window:
+            return False
+            
+        item = self.player.game_window.item
+        if not item:
+            return False
 
-        item_x = self.object.item.x
-        item_y = self.object.item.y
-
-        if (abs(player_x - item_x) < (RECT_WIDTH + ITEM_WIDTH)/2 and 
-            abs(player_y - item_y) < (RECT_HEIGHT + ITEM_HEIGHT)/2):           
+        if (abs(self.player.movement.rect_x - item.x) < (RECT_WIDTH + ITEM_WIDTH)/2 and 
+            abs(self.player.movement.rect_y - item.y) < (RECT_HEIGHT + ITEM_HEIGHT)/2):           
             self.can_pickup = True
             return True
         
@@ -25,10 +24,13 @@ class item_collision:
         return False
     
     def on_key_press(self, key):
-        if key == arcade.key.E and self.can_pickup and not self.object.item.is_picked:
-            self.object.item.is_picked = True
+        if not hasattr(self.player, 'game_window') or not self.player.game_window:
+            return
+            
+        if key == arcade.key.E and self.can_pickup and not self.player.game_window.item.is_picked:
+            self.player.game_window.item.is_picked = True
             self.current_item = True
-            self.object.item.Tutorial_Text = False
+            self.player.game_window.item.Tutorial_Text = False
         
     def update(self, delta_time):
         self.pickup()

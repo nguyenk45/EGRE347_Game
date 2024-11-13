@@ -8,10 +8,9 @@ class Attacks:
         self.is_attacking = False
         self.attack_duration = 20
         self.attack_range = 30
-        self.damage = 10
+        self.damage = Dagger
         self.attack_direction = 'right'
 
-    # WASD Attack
     def attack_key(self, key):
         if key == arcade.key.W:
             return self.stab('up')
@@ -22,7 +21,6 @@ class Attacks:
         elif key == arcade.key.D:
             return self.stab('right')
         return False
-    
 
 class Meele(Attacks):
     def __init__(self, player):
@@ -42,7 +40,6 @@ class Meele(Attacks):
         return False
     
     def player_attack_direction(self, direction):
-        # Direction of attack
         if direction == 'right':
             self.attack_box = {
                 'x': self.player.movement.rect_x + RECT_WIDTH/1.5,
@@ -70,7 +67,7 @@ class Meele(Attacks):
                 'y': self.player.movement.rect_y - RECT_HEIGHT/1.5,
                 'width': self.attack_range/2,
                 'height': self.attack_range
-            }       
+            }  
     
     def update(self):
         if self.attack_cooldown > 0:
@@ -78,7 +75,6 @@ class Meele(Attacks):
 
         if self.is_attacking:
             self.player_attack_direction(self.attack_direction)
-
             self.attack_duration -= 1
             if self.attack_duration <= 0:
                 self.is_attacking = False
@@ -94,3 +90,25 @@ class Meele(Attacks):
                 self.attack_box['height'],
                 arcade.color.RED
             )
+
+class Attack_Collision:
+    def __init__(self, player, enemy):
+        self.player = player
+        self.enemy = enemy
+        
+    def check_attack_collision(self):
+        if (self.player.meele_attack.is_attacking and 
+            self.player.meele_attack.attack_box and 
+            self.enemy.health > 0):
+            
+            attack_box = self.player.meele_attack.attack_box
+            if self.is_hit(attack_box):
+                self.apply_damage()
+    
+    def is_hit(self, attack_box):
+        return (abs(attack_box['x'] - self.enemy.rect_x) < (attack_box['width'] + RECT_WIDTH)/2 and 
+                abs(attack_box['y'] - self.enemy.rect_y) < (attack_box['height'] + RECT_HEIGHT)/2)
+    
+    def apply_damage(self):
+        if self.player.item_collision.current_item:
+            self.enemy.health -= self.player.meele_attack.damage

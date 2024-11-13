@@ -1,9 +1,8 @@
 import arcade
 from constant import *
 
-class item:
-    def __init__(self, object):
-        self.object = object
+class Item:
+    def __init__(self):
         self.x = SCREEN_WIDTH/2
         self.y = SCREEN_HEIGHT/3
         self.is_picked = False
@@ -12,13 +11,12 @@ class item:
     def draw(self):
         if not self.is_picked:
             arcade.draw_rectangle_filled(
-                self.x,
-                self.y,
+                self.x, self.y,
                 ITEM_WIDTH, ITEM_HEIGHT,
                 arcade.color.RED
             )
 
-        if self.Tutorial_Text == True: 
+        if self.Tutorial_Text: 
             arcade.draw_text(
                 "Press E to Pickup/Swap Weapons",
                 SCREEN_WIDTH/4.3, SCREEN_HEIGHT/20,
