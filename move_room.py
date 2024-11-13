@@ -1,7 +1,6 @@
 import arcade
 import random
 from constant import *
-from movement import *
 
 #set the size of the game
 SCREEN_WIDTH = 800
@@ -10,27 +9,21 @@ PLAYER_SIZE = 30
 
 
 class Room:
-    def __init__(self, player):
-        self.player = player
-        self.current_room = 1
-    
+    def __init__(self):
         #keep track of what room we are in
         self.current_room = 1
     
-    def check_door_collision(self):
-        player_x = self.player.movement.rect_x
-        player_y = self.player.movement.rect_y
-
+    def check_door_collision(self, player):
 
         # Check if player has reached the door
-        if (self.player.movement.rect_x + RECT_WIDTH/2 > SCREEN_WIDTH - DOOR_WIDTH and
-            self.player.movement.rect_y > SCREEN_HEIGHT//2 - DOOR_HEIGHT//2 and
-            self.player.movement.rect_y < SCREEN_HEIGHT//2 + DOOR_HEIGHT//2):
+        if (player.movement.rect_x + RECT_WIDTH/2 > SCREEN_WIDTH - DOOR_WIDTH and
+            player.movement.rect_y > SCREEN_HEIGHT//2 - DOOR_HEIGHT//2 and
+            player.movement.rect_y < SCREEN_HEIGHT//2 + DOOR_HEIGHT//2):
             
             # Move to next room and randomize player position
             self.current_room += 1
-            self.player.movement.rect_x = random.randint(RECT_WIDTH//2, SCREEN_WIDTH - RECT_WIDTH//2)
-            self.player.movement.rect_y = random.randint(RECT_HEIGHT//2, SCREEN_HEIGHT - RECT_HEIGHT//2)
+            player.movement.rect_x = random.randint(RECT_WIDTH//2, SCREEN_WIDTH - RECT_WIDTH//2)
+            player.movement.rect_y = random.randint(RECT_HEIGHT//2, SCREEN_HEIGHT - RECT_HEIGHT//2)
             return True
         return False
 
@@ -51,8 +44,8 @@ class Room:
             20
         )
 
-    def update(self):
-        self.check_door_collision()
+    def update(self, player):
+        self.check_door_collision(player)
         
     def setup(self): #empty but can add game objects if needed
         pass

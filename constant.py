@@ -10,3 +10,10 @@ MOVEMENT_SPEED = 5
 
 DOOR_WIDTH = 60
 DOOR_HEIGHT = 100
+
+#Item Size
+ITEM_WIDTH = 30
+ITEM_HEIGHT = 15
+
+#Weapons
+Dagger = 100
