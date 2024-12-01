@@ -4,13 +4,18 @@ from movement import Movement
 from attack import Meele
 from pickup import item_collision
 
-class Player:
-    def __init__(self):
+class Player(arcade.Sprite):
+    def __init__(self, sprite):
+        super().__init__(sprite)
+        self.image_width = RECT_WIDTH
+        self.image_height = RECT_HEIGHT
         self.health = 100
-        
         self.movement = Movement(self)
+        self.image_x = self.movement.rect_x
+        self.image_y = self.movement.rect_y
         self.meele_attack = Meele(self)
         self.item_collision = item_collision(self)
+        
         
         self.game_window = None
     
@@ -24,17 +29,11 @@ class Player:
             
     def update(self, delta_time):
         self.movement.on_update(delta_time)
+        self.image_x = self.movement.rect_x
+        self.image_y = self.movement.rect_y
         self.meele_attack.update()
         self.item_collision.update(delta_time)
             
     def draw(self):
-        # Draw player
-        arcade.draw_rectangle_filled(
-            self.movement.rect_x, 
-            self.movement.rect_y,
-            RECT_WIDTH, RECT_HEIGHT,
-            arcade.color.BLUE
-        )
-        
         # Draw attack box
         self.meele_attack.draw()

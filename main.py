@@ -6,6 +6,8 @@ from enemy import Enemy
 from move_room import Room
 from attack import Attack_Collision
 
+guide_sprite = "images/guide.png"
+
 class RectangleGame(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
@@ -15,9 +17,11 @@ class RectangleGame(arcade.Window):
 
         # Initialize Room
         self.room = Room()
+        self.player_list = arcade.SpriteList()
 
         # Initialize player
-        self.player = Player()
+        self.player = Player(guide_sprite)
+        self.player_list.append(self.player)
         self.player.game_window = self
         
         # Initialize item and enemy
@@ -37,6 +41,7 @@ class RectangleGame(arcade.Window):
         self.room.draw()
         
         # Draw game objects
+        self.player_list.draw()
         self.player.draw()
         self.item.draw()
         self.enemy.draw()
