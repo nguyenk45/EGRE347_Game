@@ -1,0 +1,91 @@
+import arcade
+import math
+
+
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+SCREEN_TITLE = "Enemy Aggression Example"
+PLAYER_SPEED = 4
+ENEMY_SPEED = 2
+
+class Player(arcade.Sprite):
+    def update(self):
+        # Move the player based on keyboard input
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+
+        # Keep the player within screen bounds
+        self.center_x = max(0, min(SCREEN_WIDTH, self.center_x))
+        self.center_y = max(0, min(SCREEN_HEIGHT, self.center_y))
+
+class Enemy(arcade.Sprite):
+    def follow_player(self, player):
+        # Calculate the distance to the player
+        dx = player.center_x - self.center_x
+        dy = player.center_y - self.center_y
+        distance = math.sqrt(dx**2 + dy**2)
+
+        if distance > 0:  # Avoid division by zero
+            # Calculate the direction vector
+            self.change_x = (dx / distance) * ENEMY_SPEED
+            self.change_y = (dy / distance) * ENEMY_SPEED
+
+            # Move the enemy
+            self.center_x += self.change_x
+            self.center_y += self.change_y
+
+class MyGame(arcade.Window):
+    def __init__(self):
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+        self.player = None
+        self.enemy = None
+        self.all_sprites = None
+
+    def setup(self):
+        # Set up the player and enemy
+        self.all_sprites = arcade.SpriteList()
+
+        self.player = Player(":resources:images/animated_characters/female_person/femalePerson_idle.png", 0.5)
+        self.player.center_x = SCREEN_WIDTH // 2
+        self.player.center_y = SCREEN_HEIGHT // 2
+        self.all_sprites.append(self.player)
+
+        self.enemy = Enemy(":resources:images/animated_characters/zombie/zombie_idle.png", 0.5)
+        self.enemy.center_x = SCREEN_WIDTH // 4
+        self.enemy.center_y = SCREEN_HEIGHT // 4
+        self.all_sprites.append(self.enemy)
+
+    def on_draw(self): #Render the screen
+        arcade.start_render()
+        self.all_sprites.draw()
+
+    def on_update(self, delta_time):
+        # Update the player and enemy
+        self.player.update()
+        self.enemy.follow_player(self.player)
+
+    def on_key_press(self, key, modifiers):
+        # Handle player movement
+        if key == arcade.key.UP:
+            self.player.change_y = PLAYER_SPEED
+        elif key == arcade.key.DOWN:
+            self.player.change_y = -PLAYER_SPEED
+        elif key == arcade.key.LEFT:
+            self.player.change_x = -PLAYER_SPEED
+        elif key == arcade.key.RIGHT:
+            self.player.change_x = PLAYER_SPEED
+
+    def on_key_release(self, key, modifiers):
+        # Stop player movement
+        if key in (arcade.key.UP, arcade.key.DOWN):
+            self.player.change_y = 0
+        elif key in (arcade.key.LEFT, arcade.key.RIGHT):
+            self.player.change_x = 0
+
+def main():
+    game = MyGame()
+    game.setup()
+    arcade.run()
+
+if __name__ == "__main__":
+    main()
