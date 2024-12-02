@@ -8,12 +8,8 @@ from anim import Animator
 class Player(arcade.Sprite):
     def __init__(self, spritesheet):
         super().__init__()
-        #self.image_width = RECT_WIDTH
-        #self.image_height = RECT_HEIGHT
         self.health = 100
         self.movement = Movement(self)
-        #self.image_x = self.movement.rect_x
-        #self.image_y = self.movement.rect_y
         self.meele_attack = Meele(self)
         self.item_collision = item_collision(self)
 
