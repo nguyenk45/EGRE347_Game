@@ -42,29 +42,29 @@ class Meele(Attacks):
     def player_attack_direction(self, direction):
         if direction == 'right':
             self.attack_box = {
-                'x': self.player.movement.rect_x + RECT_WIDTH/1.5,
-                'y': self.player.movement.rect_y,
+                'x': self.player.movement.pos_x + RECT_WIDTH/1.5,
+                'y': self.player.movement.pos_y,
                 'width': self.attack_range,
                 'height': self.attack_range/2
             }
         elif direction == 'left':
             self.attack_box = {
-                'x': self.player.movement.rect_x - RECT_WIDTH/1.5,
-                'y': self.player.movement.rect_y,
+                'x': self.player.movement.pos_x - RECT_WIDTH/1.5,
+                'y': self.player.movement.pos_y,
                 'width': self.attack_range,
                 'height': self.attack_range/2
             }
         elif direction == 'up':
             self.attack_box = {
-                'x': self.player.movement.rect_x,
-                'y': self.player.movement.rect_y + RECT_HEIGHT/1.5,
+                'x': self.player.movement.pos_x,
+                'y': self.player.movement.pos_y + RECT_HEIGHT/1.5,
                 'width': self.attack_range/2,
                 'height': self.attack_range
             }
         elif direction == 'down':
             self.attack_box = {
-                'x': self.player.movement.rect_x,
-                'y': self.player.movement.rect_y - RECT_HEIGHT/1.5,
+                'x': self.player.movement.pos_x,
+                'y': self.player.movement.pos_y - RECT_HEIGHT/1.5,
                 'width': self.attack_range/2,
                 'height': self.attack_range
             }  
@@ -106,8 +106,8 @@ class Attack_Collision:
                 self.apply_damage()
     
     def is_hit(self, attack_box):
-        return (abs(attack_box['x'] - self.enemy.rect_x) < (attack_box['width'] + RECT_WIDTH)/2 and 
-                abs(attack_box['y'] - self.enemy.rect_y) < (attack_box['height'] + RECT_HEIGHT)/2)
+        return (abs(attack_box['x'] - self.enemy.pos_x) < (attack_box['width'] + RECT_WIDTH)/2 and 
+                abs(attack_box['y'] - self.enemy.pos_y) < (attack_box['height'] + RECT_HEIGHT)/2)
     
     def apply_damage(self):
         if self.player.item_collision.current_item:
