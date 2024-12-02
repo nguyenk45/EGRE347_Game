@@ -16,4 +16,10 @@ ITEM_WIDTH = 30
 ITEM_HEIGHT = 15
 
 #Weapons
-Dagger = 100
+Dagger = 20
+
+Time = 30
+
+Enemy_Damage = 20
+
+Player_Health = 100

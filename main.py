@@ -2,9 +2,8 @@ import arcade
 from constant import *
 from character import Player
 from items import Item
-from enemy import Enemy
+from enemy import Enemy, Attack_Collision_Damage
 from move_room import Room
-from attack import Attack_Collision
 
 class RectangleGame(arcade.Window):
     def __init__(self):
@@ -28,7 +27,7 @@ class RectangleGame(arcade.Window):
         self.current_room = 1
 
         # Initialize Attack Collision
-        self.attack_collision = Attack_Collision(self.player, self.enemy)
+        self.attack_collision_damage = Attack_Collision_Damage(self.player, self.enemy)
 
     def on_draw(self):
         self.clear()
@@ -53,12 +52,17 @@ class RectangleGame(arcade.Window):
     def on_update(self, delta_time):
         # Update player
         self.player.update(delta_time)
+
+        self.enemy.update()
         
         # Update enemy collision and damage
-        self.attack_collision.check_attack_collision()
+        self.attack_collision_damage.check_attack_collision()
       
         # Check for room transition
         self.room.update(self.player)
+
+        if self.enemy.health > 0:  # Only check if enemy is alive
+            self.enemy.check_player_collision(self.player)
 
 def main():
     window = RectangleGame()

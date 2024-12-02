@@ -9,7 +9,6 @@ class Attacks:
         self.attack_duration = 20
         self.attack_range = 30
         self.damage = Dagger
-        self.attack_direction = 'right'
 
     def attack_key(self, key):
         if key == arcade.key.W:
@@ -76,6 +75,7 @@ class Meele(Attacks):
         if self.is_attacking:
             self.player_attack_direction(self.attack_direction)
             self.attack_duration -= 1
+#            print(self.attack_duration)
             if self.attack_duration <= 0:
                 self.is_attacking = False
                 self.attack_duration = 20
@@ -90,14 +90,15 @@ class Meele(Attacks):
                 self.attack_box['height'],
                 arcade.color.RED
             )
-
-class Attack_Collision:
+'''
+class Attack_Collision_Damage:
     def __init__(self, player, enemy):
         self.player = player
         self.enemy = enemy
         
     def check_attack_collision(self):
-        if (self.player.meele_attack.is_attacking and 
+        if (########################################arcade.check_for_collision()
+            self.player.meele_attack.is_attacking and 
             self.player.meele_attack.attack_box and 
             self.enemy.health > 0):
             
@@ -106,9 +107,12 @@ class Attack_Collision:
                 self.apply_damage()
     
     def is_hit(self, attack_box):
+#        return (arcade.check_for_collision(attack_box,self.rect_x and self.enemy.rect_y))
+
         return (abs(attack_box['x'] - self.enemy.rect_x) < (attack_box['width'] + RECT_WIDTH)/2 and 
                 abs(attack_box['y'] - self.enemy.rect_y) < (attack_box['height'] + RECT_HEIGHT)/2)
     
     def apply_damage(self):
         if self.player.item_collision.current_item:
             self.enemy.health -= self.player.meele_attack.damage
+'''

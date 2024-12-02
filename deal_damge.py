@@ -24,5 +24,5 @@ class hurt:
             self.enemy.health -= Dagger
             return self.enemy.health
         
-    def update(self, delta_time):
+    def update(self):
         self.weapon_contact()
