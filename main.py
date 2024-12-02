@@ -7,7 +7,7 @@ from move_room import Room
 from background import Background
 from attack import Attack_Collision
 
-guide_sprite = "images/guide.png"
+guide_sprite = "images/guideanim.png"
 background_sprites = ["images/stage1.png", "images/stage2.png"]
 
 class RectangleGame(arcade.Window):

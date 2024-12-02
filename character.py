@@ -34,8 +34,8 @@ class Player(arcade.Sprite):
         self.center_x = self.movement.rect_x
         self.center_y = self.movement.rect_y
 
-        if any([self.movement.up_pressed, self.movement.down_pressed,
-                self.movement.left_pressed, self.movement.right_pressed]):
+        if ((self.movement.up_pressed ^ self.movement.down_pressed) or
+                self.movement.left_pressed ^ self.movement.right_pressed):
             if self.anim.anim_curr != "walk":
                 self.anim.change("walk")
         elif self.anim.anim_curr != "stand":

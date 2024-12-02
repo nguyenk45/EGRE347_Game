@@ -39,11 +39,16 @@ class Movement:
             self.right_pressed = False
 
     def on_update(self, delta_time):
+        pos_change = MOVEMENT_SPEED
+        # If moving diagonally, decrease positional change in each direction
+        if (self.up_pressed or self.down_pressed) and (self.left_pressed or self.right_pressed):
+            pos_change = pos_change / 1.414
+
         if self.up_pressed:
-            self.rect_y += MOVEMENT_SPEED
+            self.rect_y += pos_change
         if self.down_pressed:
-            self.rect_y -= MOVEMENT_SPEED
+            self.rect_y -= pos_change
         if self.left_pressed:
-            self.rect_x -= MOVEMENT_SPEED
+            self.rect_x -= pos_change
         if self.right_pressed:
-            self.rect_x += MOVEMENT_SPEED
+            self.rect_x += pos_change
