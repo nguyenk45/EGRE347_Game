@@ -3,19 +3,24 @@ from constant import *
 from movement import Movement
 from attack import Meele
 from pickup import item_collision
+from anim import Animator
 
 class Player(arcade.Sprite):
-    def __init__(self, sprite):
-        super().__init__(sprite)
-        self.image_width = RECT_WIDTH
-        self.image_height = RECT_HEIGHT
+    def __init__(self, spritesheet):
+        super().__init__()
+        #self.image_width = RECT_WIDTH
+        #self.image_height = RECT_HEIGHT
         self.health = 100
         self.movement = Movement(self)
-        self.image_x = self.movement.rect_x
-        self.image_y = self.movement.rect_y
+        #self.image_x = self.movement.rect_x
+        #self.image_y = self.movement.rect_y
         self.meele_attack = Meele(self)
         self.item_collision = item_collision(self)
-        
+
+        self.anim = Animator(spritesheet, (32, 48), 16, 2)
+        self.anim.registerAnim("stand", 0)
+        self.anim.registerAnim("walk", *list(range(1, 15)))
+        self.anim.change("stand")
         
         self.game_window = None
     
@@ -29,11 +34,30 @@ class Player(arcade.Sprite):
             
     def update(self, delta_time):
         self.movement.on_update(delta_time)
-        self.image_x = self.movement.rect_x
-        self.image_y = self.movement.rect_y
+
+        self.center_x = self.movement.rect_x
+        self.center_y = self.movement.rect_y
+
+        if any([self.movement.up_pressed, self.movement.down_pressed,
+                self.movement.left_pressed, self.movement.right_pressed]):
+            if self.anim.anim_curr != "walk":
+                self.anim.change("walk")
+        elif self.anim.anim_curr != "stand":
+            self.anim.change("stand")
+
+        if self.movement.left_pressed:
+            self.anim.flipHoriz(False)
+        elif self.movement.right_pressed:
+            self.anim.flipHoriz(True)
+        self.anim.next()
+        self.texture = self.anim.texture
+
         self.meele_attack.update()
         self.item_collision.update(delta_time)
+
+        super().update()
             
     def draw(self):
         # Draw attack box
         self.meele_attack.draw()
+        super().draw()
