@@ -5,11 +5,11 @@ from attack import Meele
 from pickup import item_collision
 from anim import Animator
 
-class Player(arcade.Sprite):
-    def __init__(self, spritesheet):
+class Character(arcade.Sprite):
+    def __init__(self, spritesheet, x, y):
         super().__init__()
         self.health = 100
-        self.movement = Movement(self)
+        self.movement = Movement(self, x, y)
         self.meele_attack = Meele(self)
         self.item_collision = item_collision(self)
 
@@ -19,31 +19,23 @@ class Player(arcade.Sprite):
         self.anim.change("stand")
         
         self.game_window = None
-    
-    def on_key_press(self, key, modifiers):
-        self.movement.on_key_press(key, modifiers)
-        if key == arcade.key.E:
-            self.item_collision.on_key_press(key)
-            
-    def on_key_release(self, key, modifiers):
-        self.movement.on_key_release(key, modifiers)
             
     def update(self, delta_time):
         self.movement.on_update(delta_time)
 
-        self.center_x = self.movement.rect_x
-        self.center_y = self.movement.rect_y
+        self.center_x = self.movement.pos_x
+        self.center_y = self.movement.pos_y
 
-        if any([self.movement.up_pressed, self.movement.down_pressed,
-                self.movement.left_pressed, self.movement.right_pressed]):
+        if any([self.movement.moving_up, self.movement.moving_down,
+                self.movement.moving_left, self.movement.moving_right]):
             if self.anim.anim_curr != "walk":
                 self.anim.change("walk")
         elif self.anim.anim_curr != "stand":
             self.anim.change("stand")
 
-        if self.movement.left_pressed:
+        if self.movement.moving_left:
             self.anim.flipHoriz(False)
-        elif self.movement.right_pressed:
+        elif self.movement.moving_right:
             self.anim.flipHoriz(True)
         self.anim.next()
         self.texture = self.anim.texture

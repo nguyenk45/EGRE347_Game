@@ -16,14 +16,14 @@ class Room:
     def check_door_collision(self, player):
 
         # Check if player has reached the door
-        if (player.movement.rect_x + RECT_WIDTH/2 > SCREEN_WIDTH - DOOR_WIDTH and
-            player.movement.rect_y > SCREEN_HEIGHT//2 - DOOR_HEIGHT//2 and
-            player.movement.rect_y < SCREEN_HEIGHT//2 + DOOR_HEIGHT//2):
+        if (player.movement.pos_x + RECT_WIDTH/2 > SCREEN_WIDTH - DOOR_WIDTH and
+            player.movement.pos_y > SCREEN_HEIGHT//2 - DOOR_HEIGHT//2 and
+            player.movement.pos_y < SCREEN_HEIGHT//2 + DOOR_HEIGHT//2):
             
             # Move to next room and randomize player position
             self.current_room += 1
-            player.movement.rect_x = random.randint(RECT_WIDTH//2, SCREEN_WIDTH - RECT_WIDTH//2)
-            player.movement.rect_y = random.randint(RECT_HEIGHT//2, SCREEN_HEIGHT - RECT_HEIGHT//2)
+            player.movement.pos_x = random.randint(RECT_WIDTH//2, SCREEN_WIDTH - RECT_WIDTH//2)
+            player.movement.pos_y = random.randint(RECT_HEIGHT//2, SCREEN_HEIGHT - RECT_HEIGHT//2)
             return True
         return False
 
