@@ -4,22 +4,27 @@ from character import Player
 from items import Item
 from enemy import Enemy
 from move_room import Room
+from background import Background
 from attack import Attack_Collision
 
 guide_sprite = "images/guide.png"
+background_sprites = ["images/stage1.png", "images/stage2.png"]
 
 class RectangleGame(arcade.Window):
     def __init__(self):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-        
-        # Set the background color
-        arcade.set_background_color(arcade.color.LIGHT_GRAY)
+        self.stage = 1 #Track current stage
+
+        #Initialize Background
+        self.background_list = arcade.SpriteList()
+        self.background = Background(background_sprites)
+        self.background_list.append(self.background)
 
         # Initialize Room
         self.room = Room()
-        self.player_list = arcade.SpriteList()
 
         # Initialize player
+        self.player_list = arcade.SpriteList()
         self.player = Player(guide_sprite)
         self.player_list.append(self.player)
         self.player.game_window = self
@@ -37,6 +42,9 @@ class RectangleGame(arcade.Window):
     def on_draw(self):
         self.clear()
         
+        # Draw background sprites
+        self.background_list.draw()
+
         # Draw door and room number
         self.room.draw()
         
@@ -62,8 +70,9 @@ class RectangleGame(arcade.Window):
         # Update enemy collision and damage
         self.attack_collision.check_attack_collision()
       
-        # Check for room transition
-        self.room.update(self.player)
+        # Check for room transition, and update background if there is a transition
+        if self.room.update(self.player):
+            self.background.update(self.room.get_level()) # Update background to corresponding stage background
 
 def main():
     window = RectangleGame()
