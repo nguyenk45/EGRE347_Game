@@ -26,8 +26,8 @@ class Character(arcade.Sprite):
         self.center_x = self.movement.pos_x
         self.center_y = self.movement.pos_y
 
-        if any([self.movement.moving_up, self.movement.moving_down,
-                self.movement.moving_left, self.movement.moving_right]):
+        if ((self.movement.moving_up ^ self.movement.moving_down) or
+                (self.movement.moving_left ^ self.movement.moving_right)):
             if self.anim.anim_curr != "walk":
                 self.anim.change("walk")
         elif self.anim.anim_curr != "stand":
