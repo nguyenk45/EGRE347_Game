@@ -8,7 +8,7 @@ from background import Background
 from attack import Attack_Collision
 
 guide_sprite = "images/guideanim.png"
-background_sprites = ["images/stage1.png", "images/stage2.png"]
+background_sprites = ["images/stage1.png", "images/stage2.png", "images/stage3.png", "images/stage4.png", "images/stage5.png"]
 
 class RectangleGame(arcade.Window):
     def __init__(self):
