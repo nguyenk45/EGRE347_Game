@@ -1,4 +1,5 @@
 import arcade
+import math
 from constant import *
 from invincibility import Invincible
 
@@ -9,6 +10,28 @@ class Enemy(Invincible):
         self.rect_x = SCREEN_WIDTH/2
         self.rect_y = 2*(SCREEN_HEIGHT/3)
         self.health = 100
+
+        self.change_x = 0
+        self.change_y = 0
+        self.enemy_speed = 2  # Enemy Speed
+
+
+    def follow_player(self, player):
+        if self.health <= 0:
+            return  # Don't move if dead
+            
+        # Distance to player
+        dx = player.movement.rect_x - self.rect_x
+        dy = player.movement.rect_y - self.rect_y
+        distance = math.sqrt(dx**2 + dy**2)
+
+        if distance > 0:  # Division by zero
+            self.change_x = (dx / distance) * self.enemy_speed
+            self.change_y = (dy / distance) * self.enemy_speed
+            
+            # Update position
+            self.rect_x += self.change_x
+            self.rect_y += self.change_y
 
     def update(self):
         self.update_invincibility()
@@ -55,4 +78,3 @@ class Attack_Collision_Damage:
                 self.enemy.health -= self.player.meele_attack.damage
                 print("Enemy:", self.enemy.health)
                 self.enemy.invincibility = Time
-

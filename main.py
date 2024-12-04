@@ -54,6 +54,7 @@ class RectangleGame(arcade.Window):
         self.player.update(delta_time)
 
         self.enemy.update()
+        self.enemy.follow_player(self.player)
         
         # Update enemy collision and damage
         self.attack_collision_damage.check_attack_collision()
