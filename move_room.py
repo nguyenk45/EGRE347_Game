@@ -44,8 +44,11 @@ class Room:
             20
         )
 
+    def get_level(self):
+        return self.current_room
+
     def update(self, player):
-        self.check_door_collision(player)
+        return self.check_door_collision(player)
         
     def setup(self): #empty but can add game objects if needed
         pass
