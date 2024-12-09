@@ -1,4 +1,4 @@
-
+import arcade
 import random
 from constant import *
 from enemy import Enemy, Attack_Collision_Damage
@@ -10,12 +10,12 @@ imp_spritesheet = "images/impanim.png"
 class EnemyManager:
     def __init__(self, game_window):
         self.game_window = game_window
-        self.enemies = []
+        self.enemies = arcade.SpriteList()
         self.attack_collisions = []
         self.scaling_system = ScalingSystem()
 
     def create_enemies(self, current_room):
-        self.enemies = []  # Clear previous enemies
+        self.enemies.clear()  # Clear previous enemies
         self.attack_collisions = []  # Clear previous collision handlers
         
         num_enemies = 0
@@ -71,7 +71,7 @@ class EnemyManager:
         else: 
             # For rooms 1-2, just add chasing enemies
             for i in range(num_enemies):
-                is_vertical = random.choice([True, False])
+                is_vertical = False
                 enemy = Enemy(imp_spritesheet, (36,44), 5, self.scaling_system, current_room, is_vertical=is_vertical)
                 enemy.pos_x = random.randint(RECT_WIDTH, SCREEN_WIDTH - RECT_WIDTH)
                 enemy.pos_y = random.randint(RECT_HEIGHT, GAME_HEIGHT - RECT_HEIGHT)
@@ -81,15 +81,17 @@ class EnemyManager:
     def update(self, delta_time):
         for i, enemy in enumerate(self.enemies):
             if enemy.health > 0:
-                enemy.update()
+                enemy.update(delta_time)
                 enemy.follow_player(self.game_window.player)
                 self.attack_collisions[i].check_attack_collision()
                 enemy.check_player_collision(self.game_window.player)
+            else:
+                self.enemies.pop(i)
 
     def draw(self):
-        for enemy in self.enemies:
-            if enemy.health > 0:
-                enemy.draw()
+        for e in self.enemies:
+            e.draw()
+        self.enemies.draw()
 
     def are_enemies_alive(self):
         return any(enemy.health > 0 for enemy in self.enemies)

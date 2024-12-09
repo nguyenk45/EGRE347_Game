@@ -26,6 +26,8 @@ class Enemy(Character):
         self.is_vertical = is_vertical
         self.vertical_speed = scaling_system.vertical_speed(current_room) if is_vertical else 0
         self.moving_up = True
+        #Make animator always use walking animation
+        self.movement.moving_up = True
 
 #        self.center_x = self.pos_x
 #        self.center_y = self.pos_y
@@ -49,13 +51,16 @@ class Enemy(Character):
             self.center_x = self.pos_x
             self.center_y = self.pos_y
 
-    def update(self):
+    def update(self, delta_time):
+        super().update(delta_time)
         self.update_invincibility()
 
         if self.is_vertical:
             self.update_vertical_movement()
 
         # Translate 'enemy' movement to movement module for animator
+        self.movement.pos_x = self.pos_x
+        self.movement.pos_y = self.pos_y
         if self.change_x < 0:
             self.movement.moving_left = True
             self.movement.moving_right = False
@@ -136,5 +141,4 @@ class Attack_Collision_Damage:
             if self.enemy.health <= 0:
                 self.player.game_window.enemy_manager.enemy_died()
             
-            print("Enemy:", self.enemy.health)
             self.enemy.invincibility = Time
