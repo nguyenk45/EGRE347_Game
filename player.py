@@ -8,7 +8,7 @@ from hurt import Ouchy
 
 class Player(Character, Ouchy):
     def __init__(self, spritesheet):
-        Character.__init__(self, spritesheet, SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+        Character.__init__(self, spritesheet, (32,48), 16)
         Ouchy.__init__(self)
         
         self.health = 100
@@ -16,7 +16,7 @@ class Player(Character, Ouchy):
         self.meele_attack = Meele(self)
         self.item_collision = item_collision(self)
 
-        #Set up sprite to overlay on walking animation for blocking
+        #Set up sprite for block animation
         self.block_sprite = arcade.Sprite("images/guideanim_block.png")
         self.block_sprite_list = arcade.SpriteList()
         
@@ -24,10 +24,15 @@ class Player(Character, Ouchy):
     
     def update(self, delta_time):
         super().update(delta_time)
+        self.meele_attack.update()
+        self.item_collision.update(delta_time)
         self.update_damage_state()  
 
     def draw(self):
         super().draw()
+        # Draw attack box
+        self.meele_attack.draw()
+        # Overlay sprite for blocking over movement animation
         if self.invincible:
             self.block_sprite.center_y = self.movement.pos_y + 10
             if self.movement.facing_right:
