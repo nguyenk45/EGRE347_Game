@@ -1,4 +1,5 @@
 import arcade
+import arcade
 import random
 from constant import *
 
@@ -7,11 +8,13 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 PLAYER_SIZE = 30
 
-
 class Room:
     def __init__(self):
         #keep track of what room we are in
         self.current_room = 1
+
+        #For drawing sprite
+        self.door_sprite = arcade.Sprite("images/door.png", center_x=SCREEN_WIDTH - DOOR_WIDTH//2, center_y=GAME_HEIGHT//2, scale = 0.5)
     
     def check_door_collision(self, player):
 
@@ -40,12 +43,7 @@ class Room:
     def draw(self, game_window):
         # Draw the door
         if self.draw_door(game_window):
-            arcade.draw_rectangle_filled(
-                SCREEN_WIDTH - DOOR_WIDTH//2, 
-                GAME_HEIGHT//2,
-                DOOR_WIDTH, DOOR_HEIGHT,
-                arcade.color.BROWN
-            )
+            self.door_sprite.draw()
 
     def get_level(self):
         return self.current_room
