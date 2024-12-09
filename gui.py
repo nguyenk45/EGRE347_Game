@@ -43,8 +43,13 @@ class GUI:
         
         # Draw attack damage
         damage = self.player.meele_attack.damage if self.player.item_collision.current_item else 0
+        if self.player.game_window and damage > 0:
+            scaling_system = self.player.game_window.enemy_manager.scaling_system
+            scaled_damage = int(damage * scaling_system.player_damage())
+        else:
+            scaled_damage = damage
         arcade.draw_text(
-            f"Attack Damage: {damage}",
+            f"Attack Damage: {scaled_damage}",
             GUI_PADDING,
             GAME_HEIGHT + GUI_HEIGHT - GUI_PADDING * 4,
             arcade.color.WHITE,

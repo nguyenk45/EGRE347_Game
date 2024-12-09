@@ -26,6 +26,9 @@ Dagger = 20
 
 Time = 30
 
-Enemy_Damage = 20
-
 Player_Health = 100
+
+# Enemy Base Stats 
+Enemy_Damage = 10
+Enemy_Health = 100
+Vertical_Enemy_Speed = 3
