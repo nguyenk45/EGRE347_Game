@@ -1,6 +1,5 @@
 from constant import *
 from invincibility import Invincible
-from healthbar import draw_healthbar
 
 class Ouchy(Invincible):
     def __init__(self):
