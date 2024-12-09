@@ -1,6 +1,6 @@
 from constant import *
 from invincibility import Invincible
-from hitbox import draw_hitbox
+from healthbar import draw_healthbar
 
 class Ouchy(Invincible):
     def __init__(self):
@@ -21,4 +21,4 @@ class Ouchy(Invincible):
         self.update_invincibility()
 
     def draw(self):
-        draw_hitbox(100, self.health, 20, 10, 10)
+        draw_healthbar(100, self.health, 20, 10, 10)

@@ -1,6 +1,6 @@
 import arcade
 
-def draw_hitbox(max_health, health, height, x, y):
+def draw_healthbar(max_health, health, height, x, y):
     #Draw outline
     arcade.draw_rectangle_filled(
         x, y,
