@@ -10,12 +10,13 @@ def draw_healthbar(max_health, health, height, x, y):
     #Draw lost health
     arcade.draw_rectangle_filled(
         x, y,
-        height/1.2 * (max_health/10), height/1.2,
+        height * (max_health/10) - height/3, height - height/3,
         arcade.color.BLACK
     )
     #Draw remaining health
-    arcade.draw_rectangle_filled(
-        x, y,
-        height/1.2 * (health/10), height/1.2,
-        arcade.color.RED
-    )
+    if health > 0:
+        arcade.draw_rectangle_filled(
+            x - ((height * (max_health/10) - height * (health/10))/2), y,
+            height * (health/10) - height/3, height - height/3,
+            arcade.color.RED
+        )
