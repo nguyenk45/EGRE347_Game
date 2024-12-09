@@ -12,7 +12,7 @@ class GUI:
             GAME_HEIGHT + GUI_HEIGHT / 2,
             SCREEN_WIDTH,
             GUI_HEIGHT,
-            arcade.color.DARK_BLUE
+            arcade.color.TAN
         )
         
         # Draw divider line

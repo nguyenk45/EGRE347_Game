@@ -35,7 +35,8 @@ class Room:
             DOOR_WIDTH, DOOR_HEIGHT,
             arcade.color.BROWN
         )
-        
+
+
 #            # Draw room number
 #            arcade.draw_text(
 #                f"Room {self.current_room}",
@@ -43,6 +44,9 @@ class Room:
 #                arcade.color.WHITE,
 #                20
 #            )
+
+    def get_level(self):
+        return self.current_room
 
     def get_level(self):
         return self.current_room

@@ -49,11 +49,11 @@ class RectangleGame(arcade.Window):
         
         arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
 
-        # Draw GUI
-        self.gui.draw()
-
         # Draw background first
         self.background_list.draw()
+
+        # Draw GUI
+        self.gui.draw()
 
         # Draw door and room number
         self.room.draw()
