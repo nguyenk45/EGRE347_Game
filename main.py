@@ -7,6 +7,7 @@ from move_room import Room
 from background import Background
 from gui import GUI 
 from enemy_manager import EnemyManager
+from game_over import GameOver
 
 
 guide_sprite = "images/guideanim.png"
@@ -46,6 +47,9 @@ class RectangleGame(arcade.Window):
 
         # Initialize Attack Collision
         self.attack_collision_damage = None
+
+        self.game_over_screen = GameOver(self)
+        self.game_active = True
     
     def create_enemy(self):
         if self.current_room > 1:
@@ -54,25 +58,29 @@ class RectangleGame(arcade.Window):
 
     def on_draw(self):
         self.clear()
-        
-        arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
 
-        # Draw background first
-        self.background_list.draw()
+        if self.game_active:
 
-        # Draw GUI
-        self.gui.draw()
+            # Draw background first
+            self.background_list.draw()
 
-        # Draw door and room number
-        self.room.draw(self)
-        
-        # Draw game objects
-        self.player_list.draw()  # Draw sprites
-        self.player.draw() # Draw attack box
-        self.item.draw()
+            # Draw GUI
+            self.gui.draw()
 
-        # Draw enemies
-        self.enemy_manager.draw()
+            # Draw door and room number
+            self.room.draw(self)
+            
+            # Draw game objects
+            self.player_list.draw()  # Draw sprites
+            self.player.draw() # Draw attack box
+            self.item.draw()
+
+            # Draw enemies
+            self.enemy_manager.draw()
+
+        else:
+            # Draw game over screen
+            self.game_over_screen.draw()
 
     def on_key_press(self, key, modifiers):
         self.player.on_key_press(key, modifiers)
@@ -85,6 +93,15 @@ class RectangleGame(arcade.Window):
   
     def on_update(self, delta_time):
         # Update player
+        if self.player.health <= 0 and self.game_active:
+            self.game_active = False
+            self.game_over_screen.set_end_time()
+            return
+        
+        if not self.game_active:
+            return
+        
+        # Update player
         self.player.update(delta_time)
 
         # Update enemies
@@ -95,8 +112,6 @@ class RectangleGame(arcade.Window):
             self.current_room = self.room.get_level()
             self.background.update(self.current_room)
             self.enemy_manager.create_enemies(self.current_room)
-    
-       # Check for room transition and update background
         if self.room.update(self.player):
             self.background.update(self.room.get_level())  # Update background on room change
 
@@ -105,6 +120,13 @@ class RectangleGame(arcade.Window):
             
             # Create enemy when entering room
             self.create_enemy()
+
+        if not self.game_active:
+            return
+        
+        if self.player.health <= 0:
+            self.game_active = False
+            self.game_over_screen.set_end_time()
 
 def main():
     window = RectangleGame()
