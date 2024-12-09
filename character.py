@@ -1,11 +1,12 @@
 import arcade
 from constant import *
 from movement import Movement
+from hurt import Ouchy
 from attack import Meele
 from pickup import item_collision
 from anim import Animator
 
-class Character(arcade.Sprite):
+class Character(arcade.Sprite, Ouchy):
     def __init__(self, spritesheet, x, y):
         super().__init__()
         self.health = 100
@@ -46,14 +47,9 @@ class Character(arcade.Sprite):
         super().update()
             
     def draw(self):
-        # Draw player
-        arcade.draw_rectangle_filled(
-            self.movement.rect_x, 
-            self.movement.rect_y,
-            RECT_WIDTH, RECT_HEIGHT,
-            arcade.color.BLUE if self.health > 0 else arcade.color.RED
-        )
-        
+        #Draw hitbox
+        Ouchy.draw(self)
         # Draw attack box
         self.meele_attack.draw()
+        # Draw player
         super().draw()
