@@ -87,6 +87,7 @@ class EnemyManager:
                 enemy.check_player_collision(self.game_window.player)
             else:
                 self.enemies.pop(i)
+                self.attack_collisions.pop(i)
 
     def draw(self):
         for e in self.enemies:
