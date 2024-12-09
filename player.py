@@ -52,7 +52,7 @@ class Player(Character, Ouchy):
         if key == arcade.key.SPACE:
             if not self.dodge_timeout:
                 self.trigger_invincibility(100)
-                self.dodge_timeout = 300
+                self.dodge_timeout = 250
 
     def on_key_release(self, key, modifiers):
         self.movement.on_key_release(key, modifiers)
