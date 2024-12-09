@@ -31,21 +31,24 @@ class Room:
         # Draw the door
         arcade.draw_rectangle_filled(
             SCREEN_WIDTH - DOOR_WIDTH//2, 
-            SCREEN_HEIGHT//2,
+            GAME_HEIGHT//2,
             DOOR_WIDTH, DOOR_HEIGHT,
             arcade.color.BROWN
         )
         
-        # Draw room number
-        arcade.draw_text(
-            f"Room {self.current_room}",
-            SCREEN_WIDTH - 140, SCREEN_HEIGHT - 30,
-            arcade.color.WHITE,
-            20
-        )
+#            # Draw room number
+#            arcade.draw_text(
+#                f"Room {self.current_room}",
+#                SCREEN_WIDTH - 140, SCREEN_HEIGHT - 30,
+#                arcade.color.WHITE,
+#                20
+#            )
+
+    def get_level(self):
+        return self.current_room
 
     def update(self, player):
-        self.check_door_collision(player)
+        return self.check_door_collision(player)
         
     def setup(self): #empty but can add game objects if needed
         pass

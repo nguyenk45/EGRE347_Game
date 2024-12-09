@@ -1,7 +1,13 @@
 # Window Constants
 SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Attacking Square"
+SCREEN_HEIGHT = 800
+GAME_HEIGHT = 600
+GUI_HEIGHT = 200 
+SCREEN_TITLE = "Guide's Journey"
+
+# GUI Constants
+GUI_START_Y = GAME_HEIGHT  # Where GUI section begins
+GUI_PADDING = 20
 
 # Rectangle properties
 RECT_WIDTH = 50

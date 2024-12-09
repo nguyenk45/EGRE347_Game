@@ -6,7 +6,7 @@ class Movement:
         self.character = character
         # Character position
         self.pos_x = x
-        self.pos_y = y
+        self.pos_y = y  
 
         # Track directions currently moving in
         self.moving_up = False
@@ -20,15 +20,31 @@ class Movement:
         if (self.moving_up or self.moving_down) and (self.moving_left or self.moving_right):
             pos_change = pos_change / 1.414
 
-        if self.moving_up:
-            self.pos_y += pos_change
-        if self.moving_down:
-            self.pos_y -= pos_change
-        if self.moving_left:
-            self.pos_x -= pos_change
-        if self.moving_right:
-            self.pos_x += pos_change
+        new_x = self.pos_x
+        new_y = self.pos_y
 
+        if self.moving_up:
+            new_y += pos_change
+        if self.moving_down:
+            new_y -= pos_change
+        if self.moving_left:
+            new_x -= pos_change
+        if self.moving_right:
+            new_x += pos_change
+
+        # checks for screen edges and GUI area
+        if new_x < RECT_WIDTH/2:  # Left 
+            new_x = RECT_WIDTH/2
+        if new_x > SCREEN_WIDTH - RECT_WIDTH/2:  # Right
+            new_x = SCREEN_WIDTH - RECT_WIDTH/2
+        if new_y < RECT_HEIGHT/2:  # Bottom
+            new_y = RECT_HEIGHT/2
+        if new_y > GAME_HEIGHT - RECT_HEIGHT/2:  # Top boundary (stop at GUI area)
+            new_y = GAME_HEIGHT - RECT_HEIGHT/2
+
+        self.pos_x = new_x
+        self.pos_y = new_y
+        
 class playerMovement(Movement):
     def on_key_press(self, key, modifiers): 
         if key == arcade.key.UP:

@@ -5,6 +5,7 @@ from items import Item
 from enemy import Enemy, Attack_Collision_Damage
 from move_room import Room
 from background import Background
+from gui import GUI 
 
 
 guide_sprite = "images/guideanim.png"
@@ -30,6 +31,9 @@ class RectangleGame(arcade.Window):
         self.player_list.append(self.player)
         self.player.game_window = self
         
+        #Initialize GUI
+        self.gui = GUI(self.player)
+
         # Initialize item and enemy
         self.item = Item()
         self.enemy = Enemy()
@@ -43,6 +47,11 @@ class RectangleGame(arcade.Window):
     def on_draw(self):
         self.clear()
         
+        arcade.set_viewport(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT)
+
+        # Draw GUI
+        self.gui.draw()
+
         # Draw background first
         self.background_list.draw()
 
