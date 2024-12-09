@@ -41,29 +41,29 @@ class Meele(Attacks):
     def player_attack_direction(self, direction):
         if direction == 'right':
             self.attack_box = {
-                'x': self.player.movement.rect_x + RECT_WIDTH/1.5,
-                'y': self.player.movement.rect_y,
+                'x': self.player.movement.pos_x + RECT_WIDTH/1.5,
+                'y': self.player.movement.pos_y,
                 'width': self.attack_range,
                 'height': self.attack_range/2
             }
         elif direction == 'left':
             self.attack_box = {
-                'x': self.player.movement.rect_x - RECT_WIDTH/1.5,
-                'y': self.player.movement.rect_y,
+                'x': self.player.movement.pos_x - RECT_WIDTH/1.5,
+                'y': self.player.movement.pos_y,
                 'width': self.attack_range,
                 'height': self.attack_range/2
             }
         elif direction == 'up':
             self.attack_box = {
-                'x': self.player.movement.rect_x,
-                'y': self.player.movement.rect_y + RECT_HEIGHT/1.5,
+                'x': self.player.movement.pos_x,
+                'y': self.player.movement.pos_y + RECT_HEIGHT/1.5,
                 'width': self.attack_range/2,
                 'height': self.attack_range
             }
         elif direction == 'down':
             self.attack_box = {
-                'x': self.player.movement.rect_x,
-                'y': self.player.movement.rect_y - RECT_HEIGHT/1.5,
+                'x': self.player.movement.pos_x,
+                'y': self.player.movement.pos_y - RECT_HEIGHT/1.5,
                 'width': self.attack_range/2,
                 'height': self.attack_range
             }  

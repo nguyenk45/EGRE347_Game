@@ -15,8 +15,8 @@ class item_collision:
         if not item:
             return False
 
-        if (abs(self.player.movement.rect_x - item.x) < (RECT_WIDTH + ITEM_WIDTH)/2 and 
-            abs(self.player.movement.rect_y - item.y) < (RECT_HEIGHT + ITEM_HEIGHT)/2):           
+        if (abs(self.player.movement.pos_x - item.x) < (RECT_WIDTH + ITEM_WIDTH)/2 and 
+            abs(self.player.movement.pos_y - item.y) < (RECT_HEIGHT + ITEM_HEIGHT)/2):           
             self.can_pickup = True
             return True
         
