@@ -4,13 +4,13 @@ from constant import *
 from invincibility import Invincible
 from healthbar import draw_healthbar
 from scaling import ScalingSystem
+from character import Character
 
 
-class Enemy(Invincible, arcade.Sprite):
-    def __init__(self, scaling_system, current_room, is_vertical = False):
-        arcade.Sprite.__init__(self)
+class Enemy(Character):
+    def __init__(self, spritesheet, dim, cols, scaling_system, current_room, is_vertical = False):
         Invincible.__init__(self)
-
+        Character.__init__(self, spritesheet, dim, cols)
         self.pos_x = SCREEN_WIDTH/2
         self.pos_y = 2*(SCREEN_HEIGHT/3)
 
@@ -55,6 +55,14 @@ class Enemy(Invincible, arcade.Sprite):
         if self.is_vertical:
             self.update_vertical_movement()
 
+        # Translate 'enemy' movement to movement module for animator
+        if self.change_x < 0:
+            self.movement.moving_left = True
+            self.movement.moving_right = False
+        else:
+            self.movement.moving_left = False
+            self.movement.moving_right = True
+
     def update_vertical_movement(self):
         if self.moving_up:
             self.pos_y += self.vertical_speed
@@ -88,11 +96,7 @@ class Enemy(Invincible, arcade.Sprite):
     def draw(self):
         if self.health > 0:
             draw_healthbar(self.max_health, self.health, 10, self.pos_x, self.pos_y + 0.75*RECT_HEIGHT)
-            arcade.draw_rectangle_filled(
-                self.pos_x, self.pos_y,
-                RECT_WIDTH, RECT_HEIGHT,
-                arcade.color.GREEN
-            )
+            super().draw()
 
     def check_player_collision(self, player):
         if (abs(self.pos_x - player.movement.pos_x) < RECT_WIDTH/2 and 

@@ -1,22 +1,19 @@
 import arcade
 from constant import *
 from movement import Movement
-from hurt import Ouchy
+from hurt import Invincible
 from attack import Meele
 from pickup import item_collision
 from anim import Animator
 
-class Character(arcade.Sprite, Ouchy):
-    def __init__(self, spritesheet, x, y):
+class Character(arcade.Sprite, Invincible):
+    def __init__(self, spritesheet, dim, cols):
         super().__init__()
-        self.health = 100
-        self.movement = Movement(self, x, y)
-        self.meele_attack = Meele(self)
-        self.item_collision = item_collision(self)
+        self.movement = Movement(self, 0, 0)
 
-        self.anim = Animator(spritesheet, (32, 48), 16, 2)
+        self.anim = Animator(spritesheet, dim, cols, 1)
         self.anim.registerAnim("stand", 0)
-        self.anim.registerAnim("walk", *list(range(1, 15)))
+        self.anim.registerAnim("walk", *list(range(1, cols-1)))
         self.anim.change("stand")
         
         self.game_window = None
@@ -43,13 +40,8 @@ class Character(arcade.Sprite, Ouchy):
         self.anim.next()
         self.texture = self.anim.texture
 
-        self.meele_attack.update()
-        self.item_collision.update(delta_time)
-
         super().update()
             
     def draw(self):
-        # Draw attack box
-        self.meele_attack.draw()
         # Draw player
         super().draw()

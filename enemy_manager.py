@@ -4,6 +4,9 @@ from constant import *
 from enemy import Enemy, Attack_Collision_Damage
 from scaling import ScalingSystem
 
+demon_spritesheet = "images/demonanim.png"
+imp_spritesheet = "images/impanim.png"
+
 class EnemyManager:
     def __init__(self, game_window):
         self.game_window = game_window
@@ -32,14 +35,14 @@ class EnemyManager:
         # Always add one chasing enemy and one vertical enemy after room 3
         if current_room >= 3:
             # Add chasing enemy
-            chase_enemy = Enemy(self.scaling_system, current_room, is_vertical=False)
+            chase_enemy = Enemy(imp_spritesheet, (36,44), 6, self.scaling_system, current_room, is_vertical=False)
             chase_enemy.pos_x = random.randint(RECT_WIDTH, SCREEN_WIDTH - RECT_WIDTH)
             chase_enemy.pos_y = random.randint(RECT_HEIGHT, GAME_HEIGHT - RECT_HEIGHT)
             self.enemies.append(chase_enemy)
             self.attack_collisions.append(Attack_Collision_Damage(self.game_window.player, chase_enemy))
             
             # Add vertical enemy
-            vertical_enemy = Enemy(self.scaling_system, current_room, is_vertical=True)
+            vertical_enemy = Enemy(demon_spritesheet, (82, 56), 5, self.scaling_system, current_room, is_vertical=True)
             vertical_enemy.pos_x = random.randint(RECT_WIDTH, SCREEN_WIDTH - RECT_WIDTH)
             vertical_enemy.pos_y = random.randint(RECT_HEIGHT, GAME_HEIGHT - RECT_HEIGHT)
             self.enemies.append(vertical_enemy)
@@ -51,7 +54,15 @@ class EnemyManager:
             # Add rest of enemies
             for i in range(num_enemies):
                 is_vertical = random.choice([True, False])  # Randomly enemy type
-                enemy = Enemy(self.scaling_system, current_room, is_vertical=is_vertical)
+                if is_vertical:
+                    spritesheet = demon_spritesheet
+                    dim = (82, 56)
+                    cols = 5
+                else:
+                    spritesheet = imp_spritesheet
+                    dim = (36,44)
+                    cols = 6
+                enemy = Enemy(spritesheet, dim, cols, self.scaling_system, current_room, is_vertical=is_vertical)
                 enemy.pos_x = random.randint(RECT_WIDTH, SCREEN_WIDTH - RECT_WIDTH)
                 enemy.pos_y = random.randint(RECT_HEIGHT, GAME_HEIGHT - RECT_HEIGHT)
                 self.enemies.append(enemy)
@@ -61,7 +72,7 @@ class EnemyManager:
             # For rooms 1-2, just add chasing enemies
             for i in range(num_enemies):
                 is_vertical = random.choice([True, False])
-                enemy = Enemy(self.scaling_system, current_room, is_vertical=is_vertical)
+                enemy = Enemy(imp_spritesheet, (36,44), 5, self.scaling_system, current_room, is_vertical=is_vertical)
                 enemy.pos_x = random.randint(RECT_WIDTH, SCREEN_WIDTH - RECT_WIDTH)
                 enemy.pos_y = random.randint(RECT_HEIGHT, GAME_HEIGHT - RECT_HEIGHT)
                 self.enemies.append(enemy)
