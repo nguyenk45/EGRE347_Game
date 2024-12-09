@@ -90,29 +90,14 @@ class Meele(Attacks):
                 self.attack_box['height'],
                 arcade.color.RED
             )
-'''
-class Attack_Collision_Damage:
-    def __init__(self, player, enemy):
-        self.player = player
-        self.enemy = enemy
-        
-    def check_attack_collision(self):
-        if (########################################arcade.check_for_collision()
-            self.player.meele_attack.is_attacking and 
-            self.player.meele_attack.attack_box and 
-            self.enemy.health > 0):
             
-            attack_box = self.player.meele_attack.attack_box
-            if self.is_hit(attack_box):
-                self.apply_damage()
-    
-    def is_hit(self, attack_box):
-#        return (arcade.check_for_collision(attack_box,self.rect_x and self.enemy.rect_y))
-
-        return (abs(attack_box['x'] - self.enemy.rect_x) < (attack_box['width'] + RECT_WIDTH)/2 and 
-                abs(attack_box['y'] - self.enemy.rect_y) < (attack_box['height'] + RECT_HEIGHT)/2)
-    
+class Attack_Collision_Damage:
     def apply_damage(self):
         if self.player.item_collision.current_item:
-            self.enemy.health -= self.player.meele_attack.damage
-'''
+            base_damage = self.player.meele_attack.damage
+            scaled_damage = int(base_damage * self.player.game_window.enemy_manager.scaling_system.player_damage())
+            self.enemy.health -= scaled_damage
+            print("Enemy:", self.enemy.health)
+            if self.enemy.health <= 0:
+                self.player.game_window.enemy_manager.enemy_died()
+            self.enemy.invincibility = Time
