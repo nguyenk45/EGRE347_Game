@@ -6,6 +6,7 @@ from enemy import Enemy, Attack_Collision_Damage
 from move_room import Room
 from background import Background
 from gui import GUI 
+from enemy_manager import EnemyManager
 
 
 guide_sprite = "images/guideanim.png"
@@ -36,7 +37,9 @@ class RectangleGame(arcade.Window):
 
         # Initialize item and enemy
         self.item = Item()
-        self.enemy = None
+
+        # Initialize enemy manager
+        self.enemy_manager = EnemyManager(self)
         
         # Initialize room number
         self.current_room = 1
@@ -68,8 +71,8 @@ class RectangleGame(arcade.Window):
         self.player.draw() # Draw attack box
         self.item.draw()
 
-        if self.enemy:
-            self.enemy.draw()
+        # Draw enemies
+        self.enemy_manager.draw()
 
     def on_key_press(self, key, modifiers):
         self.player.on_key_press(key, modifiers)
@@ -84,15 +87,14 @@ class RectangleGame(arcade.Window):
         # Update player
         self.player.update(delta_time)
 
-        if self.enemy:
-            self.enemy.update()
-            self.enemy.follow_player(self.player)
+        # Update enemies
+        self.enemy_manager.update(delta_time)
         
-            # Update enemy collision and damage
-            self.attack_collision_damage.check_attack_collision()
-
-            if self.enemy.health > 0:  # Only check if enemy is alive
-                self.enemy.check_player_collision(self.player)
+        # Check for room transition and update background
+        if self.room.update(self.player):
+            self.current_room = self.room.get_level()
+            self.background.update(self.current_room)
+            self.enemy_manager.create_enemies(self.current_room)
     
        # Check for room transition and update background
         if self.room.update(self.player):

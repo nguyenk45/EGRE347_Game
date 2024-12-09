@@ -6,7 +6,7 @@ from healthbar import draw_healthbar
 
 
 class Enemy(Invincible, arcade.Sprite):
-    def __init__(self):
+    def __init__(self, is_vertical = False):
         arcade.Sprite.__init__(self)
         Invincible.__init__(self)
 
@@ -19,8 +19,12 @@ class Enemy(Invincible, arcade.Sprite):
         self.change_y = 0
         self.enemy_speed = 2  # Enemy Speed
 
-        self.center_x = self.pos_x
-        self.center_y = self.pos_y
+        self.is_vertical = is_vertical
+        self.vertical_speed = 3
+        self.moving_up = True
+
+#        self.center_x = self.pos_x
+#        self.center_y = self.pos_y
 
     def follow_player(self, player):
         if self.health <= 0:
@@ -43,6 +47,39 @@ class Enemy(Invincible, arcade.Sprite):
 
     def update(self):
         self.update_invincibility()
+
+        if self.is_vertical:
+            self.update_vertical_movement()
+
+    def update_vertical_movement(self):
+        if self.moving_up:
+            self.pos_y += self.vertical_speed
+            if self.pos_y > GAME_HEIGHT - RECT_HEIGHT:
+                self.moving_up = False
+        else:
+            self.pos_y -= self.vertical_speed
+            if self.pos_y < RECT_HEIGHT:
+                self.moving_up = True
+                
+        self.center_y = self.pos_y
+
+    def follow_player(self, player):
+        if self.health <= 0 or self.is_vertical:
+            return
+
+        dx = player.movement.pos_x - self.pos_x
+        dy = player.movement.pos_y - self.pos_y
+        distance = math.sqrt(dx**2 + dy**2)
+
+        if distance > 0:
+            self.change_x = (dx / distance) * self.enemy_speed
+            self.change_y = (dy / distance) * self.enemy_speed
+            
+            self.pos_x += self.change_x
+            self.pos_y += self.change_y
+            self.center_x = self.pos_x
+            self.center_y = self.pos_y
+    
 
     def draw(self):
         if self.health > 0:

@@ -33,7 +33,9 @@ class Room:
     
     def draw_door(self, game_window):
         # Door appears if there's no enemy
-        return game_window.enemy is None or game_window.enemy.health <= 0
+        if game_window.current_room == 1:
+            return True
+        return not game_window.enemy_manager.are_enemies_alive()
 
     def draw(self, game_window):
         # Draw the door
@@ -44,7 +46,6 @@ class Room:
                 DOOR_WIDTH, DOOR_HEIGHT,
                 arcade.color.BROWN
             )
-
 
     def get_level(self):
         return self.current_room
