@@ -47,6 +47,9 @@ class Room:
     def get_level(self):
         return self.current_room
 
+    def get_level(self):
+        return self.current_room
+
     def update(self, player):
         return self.check_door_collision(player)
         
