@@ -36,8 +36,10 @@ class Character(arcade.Sprite, Ouchy):
 
         if self.movement.moving_left:
             self.anim.flipHoriz(False)
+            self.movement.facing_right = False
         elif self.movement.moving_right:
             self.anim.flipHoriz(True)
+            self.movement.facing_right = True
         self.anim.next()
         self.texture = self.anim.texture
 

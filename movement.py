@@ -14,6 +14,9 @@ class Movement:
         self.moving_left = False
         self.moving_right = False
 
+        #Track direction sprite is facing
+        self.facing_right = False
+
     def on_update(self, delta_time):
         pos_change = MOVEMENT_SPEED
         # If moving diagonally, decrease positional change in each direction

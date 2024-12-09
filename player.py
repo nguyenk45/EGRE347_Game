@@ -30,12 +30,12 @@ class Player(Character, Ouchy):
         super().draw()
         if self.invincible:
             self.block_sprite.center_y = self.movement.pos_y + 10
-            if self.movement.moving_left:
-                self.block_sprite.texture = arcade.load_texture("images/guideanim_block.png")
-                self.block_sprite.center_x = self.movement.pos_x - 2
-            else:
+            if self.movement.facing_right:
                 self.block_sprite.texture = arcade.load_texture("images/guideanim_block.png", flipped_horizontally=True)
                 self.block_sprite.center_x = self.movement.pos_x + 2
+            else:
+                self.block_sprite.texture = arcade.load_texture("images/guideanim_block.png")
+                self.block_sprite.center_x = self.movement.pos_x - 2
             
             self.block_sprite.draw()
     
