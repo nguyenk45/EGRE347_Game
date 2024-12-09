@@ -2,9 +2,27 @@ import arcade
 from constant import *
 from healthbar import draw_healthbar
 
+player_icon_sprites = ["images/Guid_pfp.PNG", "images/guide_dying.png", "images/guide_dead.png"]
+
 class GUI:
     def __init__(self, player):
         self.player = player
+
+        self.player_icon = arcade.Sprite(player_icon_sprites[0], center_x=GUI_PADDING + 650, center_y=GAME_HEIGHT + GUI_HEIGHT - GUI_PADDING * 4, scale = 0.5)
+        self.sprites_list = arcade.SpriteList()
+        self.sprites_list.append(self.player_icon)
+        #Add GUI to damage observers
+        player.register_damage_observer(self)
+
+    #When player takes damage, change player icon texture if appropriate
+    def notified_damage(self):
+        if(self.player.health < 20):
+            self.player_icon.texture = arcade.load_texture(player_icon_sprites[2])
+            self.player_icon.scale = 5
+        elif(self.player.health < 40):
+            self.player_icon.texture = arcade.load_texture(player_icon_sprites[1])
+            self.player_icon.scale = 5
+
         
     def draw(self):
         # Draw GUI background
@@ -61,3 +79,6 @@ class GUI:
                 arcade.color.WHITE,
                 20
             )
+        
+        # Draw sprites
+        self.sprites_list.draw()
