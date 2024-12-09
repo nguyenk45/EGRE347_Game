@@ -47,8 +47,6 @@ class Character(arcade.Sprite, Ouchy):
         super().update()
             
     def draw(self):
-        #Draw hitbox
-        Ouchy.draw(self)
         # Draw attack box
         self.meele_attack.draw()
         # Draw player

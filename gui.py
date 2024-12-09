@@ -1,5 +1,6 @@
 import arcade
 from constant import *
+from healthbar import draw_healthbar
 
 class GUI:
     def __init__(self, player):
@@ -22,8 +23,16 @@ class GUI:
             arcade.color.WHITE,
             2
         )
-        
-        # Draw player health
+
+        draw_healthbar(
+            100, 
+            self.player.health, 
+            20, 
+            GUI_PADDING + 650,
+            GAME_HEIGHT + GUI_HEIGHT - GUI_PADDING * 8 
+        )
+
+        # Draw player health txt
         arcade.draw_text(
             f"Health: {self.player.health}/100",
             GUI_PADDING,
