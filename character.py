@@ -31,6 +31,8 @@ class Player(Ouchy):
         self.update_damage_state()
             
     def draw(self):
+        #Draw hitbox
+        Ouchy.draw(self)
         # Draw player
         arcade.draw_rectangle_filled(
             self.movement.rect_x, 
