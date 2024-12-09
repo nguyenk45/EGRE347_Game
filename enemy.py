@@ -46,7 +46,7 @@ class Enemy(Invincible, arcade.Sprite):
 
     def draw(self):
         if self.health > 0:
-            draw_healthbar(self.max_health, self.health, 10, self.pos_x - 0.75*RECT_WIDTH, self.pos_y + 0.75*RECT_HEIGHT)
+            draw_healthbar(self.max_health, self.health, 10, self.pos_x, self.pos_y + 0.75*RECT_HEIGHT)
             arcade.draw_rectangle_filled(
                 self.pos_x, self.pos_y,
                 RECT_WIDTH, RECT_HEIGHT,
