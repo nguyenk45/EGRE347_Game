@@ -46,6 +46,14 @@ class Character(arcade.Sprite):
         super().update()
             
     def draw(self):
+        # Draw player
+        arcade.draw_rectangle_filled(
+            self.movement.rect_x, 
+            self.movement.rect_y,
+            RECT_WIDTH, RECT_HEIGHT,
+            arcade.color.BLUE if self.health > 0 else arcade.color.RED
+        )
+        
         # Draw attack box
         self.meele_attack.draw()
         super().draw()

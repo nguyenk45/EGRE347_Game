@@ -2,6 +2,7 @@ import arcade
 import math
 from constant import *
 from invincibility import Invincible
+from hitbox import draw_hitbox
 
 
 class Enemy(Invincible, arcade.Sprite):
@@ -11,6 +12,7 @@ class Enemy(Invincible, arcade.Sprite):
 
         self.pos_x = SCREEN_WIDTH/2
         self.pos_y = 2*(SCREEN_HEIGHT/3)
+        self.max_health = 100
         self.health = 100
 
         self.change_x = 0
@@ -43,6 +45,7 @@ class Enemy(Invincible, arcade.Sprite):
         self.update_invincibility()
 
     def draw(self):
+        draw_hitbox(self.max_health, self.health, 10, self.rect_x - 0.75*RECT_WIDTH, self.rect_y + 0.75*RECT_HEIGHT)
         if self.health > 0:
             arcade.draw_rectangle_filled(
                 self.pos_x, self.pos_y,

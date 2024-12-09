@@ -39,7 +39,7 @@ class Room:
         # Draw room number
         arcade.draw_text(
             f"Room {self.current_room}",
-            10, SCREEN_HEIGHT - 30,
+            SCREEN_WIDTH - 140, SCREEN_HEIGHT - 30,
             arcade.color.WHITE,
             20
         )
