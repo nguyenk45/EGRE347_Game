@@ -95,7 +95,7 @@ class Enemy(Invincible, arcade.Sprite):
             )
 
     def check_player_collision(self, player):
-        if (abs(self.pos_x - player.movement.pos_x) < RECT_WIDTH and 
+        if (abs(self.pos_x - player.movement.pos_x) < RECT_WIDTH/2 and 
             abs(self.pos_y - player.movement.pos_y) < RECT_HEIGHT and
             not player.invincible):
             player.take_damage(self.damage)

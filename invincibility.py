@@ -22,6 +22,6 @@ class Invincible:
             self.invincible = False
     
     def check_collision(self, other):
-        return (abs(self.movement.rect_x - other.rect_x) < RECT_WIDTH and 
+        return (abs(self.movement.rect_x - other.rect_x) < RECT_WIDTH/2 and 
                 abs(self.movement.rect_y - other.rect_y) < RECT_HEIGHT and
                 other.health > 0)
