@@ -85,5 +85,4 @@ class Attack_Collision_Damage:
     def apply_damage(self):
         if self.player.item_collision.current_item:
                 self.enemy.health -= self.player.meele_attack.damage
-                print("Enemy:", self.enemy.health)
                 self.enemy.invincibility = Time
