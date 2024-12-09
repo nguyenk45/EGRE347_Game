@@ -15,8 +15,6 @@ class Background(arcade.Sprite):
 
     def update(self, curr_stage): #Switch background based on stage passed
         if curr_stage != self.curr_stage:
-            if curr_stage > self.images_len:
-                curr_stage = 1
-            self.texture = arcade.load_texture(self.images[curr_stage-1])
+            self.texture = arcade.load_texture(self.images[(curr_stage % self.images_len) -1])
             self.curr_stage = curr_stage
         super().update()
