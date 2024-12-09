@@ -19,6 +19,3 @@ class Ouchy(Invincible):
 
     def update_damage_state(self):
         self.update_invincibility()
-
-    def draw(self):
-        draw_hitbox(100, self.health, 20, 10, 10)

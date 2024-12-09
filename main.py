@@ -36,13 +36,18 @@ class RectangleGame(arcade.Window):
 
         # Initialize item and enemy
         self.item = Item()
-        self.enemy = Enemy()
+        self.enemy = None
         
         # Initialize room number
         self.current_room = 1
 
         # Initialize Attack Collision
-        self.attack_collision_damage = Attack_Collision_Damage(self.player, self.enemy)
+        self.attack_collision_damage = None
+    
+    def create_enemy(self):
+        if self.current_room > 1:
+            self.enemy = Enemy()
+            self.attack_collision_damage = Attack_Collision_Damage(self.player, self.enemy)
 
     def on_draw(self):
         self.clear()
@@ -56,13 +61,15 @@ class RectangleGame(arcade.Window):
         self.gui.draw()
 
         # Draw door and room number
-        self.room.draw()
+        self.room.draw(self)
         
         # Draw game objects
         self.player_list.draw()  # Draw sprites
         self.player.draw() # Draw attack box
         self.item.draw()
-        self.enemy.draw()
+
+        if self.enemy:
+            self.enemy.draw()
 
     def on_key_press(self, key, modifiers):
         self.player.on_key_press(key, modifiers)
@@ -77,18 +84,25 @@ class RectangleGame(arcade.Window):
         # Update player
         self.player.update(delta_time)
 
-        self.enemy.update()
-        self.enemy.follow_player(self.player)
+        if self.enemy:
+            self.enemy.update()
+            self.enemy.follow_player(self.player)
         
-        # Update enemy collision and damage
-        self.attack_collision_damage.check_attack_collision()
+            # Update enemy collision and damage
+            self.attack_collision_damage.check_attack_collision()
+
+            if self.enemy.health > 0:  # Only check if enemy is alive
+                self.enemy.check_player_collision(self.player)
     
        # Check for room transition and update background
         if self.room.update(self.player):
             self.background.update(self.room.get_level())  # Update background on room change
 
-        if self.enemy.health > 0:  # Only check if enemy is alive
-            self.enemy.check_player_collision(self.player)
+            self.current_room = self.room.get_level()
+            self.background.update(self.current_room)
+            
+            # Create enemy when entering room
+            self.create_enemy()
 
 def main():
     window = RectangleGame()
